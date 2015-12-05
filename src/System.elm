@@ -1,13 +1,13 @@
 module System where
 
-import Set exposing (Set)
+import Random exposing (Seed)
+import Color exposing (Color)
 
 type Action =
   NoOp
+  | GenerateColor
 
-type Color = String
-
-type Square = Set Color
+type Square = List Color
 
 type alias Layout =
   { width : Int
@@ -18,5 +18,6 @@ type alias Layout =
 type alias Model =
   { width : Int
   , height : Int
-  , colors : Set Color
+  , colors : List Color
+  , seed : Seed
   }
