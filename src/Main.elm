@@ -6,7 +6,6 @@ import Effects exposing (Effects, Never)
 import Signal
 import Task
 import Random
-import Debug
 
 import System exposing (..)
 import Editor
@@ -31,13 +30,11 @@ update action model =
 
 view : Signal.Address Action -> Model -> Html
 view address model =
-  let
-    dbg = Debug.log "model" model
-  in
-    div []
-      [ h1 [] [ text "Crochet!" ]
-      , Editor.addColor address
-      ]
+  div []
+    [ h1 [] [ text "Crochet!" ]
+    , Editor.addColor address
+    , Editor.colorBar model.colors
+    ]
 
 app : StartApp.App Model
 app =
