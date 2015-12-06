@@ -10,7 +10,7 @@ import Debug
 
 import System exposing (..)
 import Editor
-import Square
+import Color.Extra
 import Layout
 
 initialData : Model
@@ -23,7 +23,7 @@ update action model =
     NoOp -> (model, Effects.none)
     GenerateColor ->
       let
-        (newColor, seed) = Square.generateColor model.seed
+        (newColor, seed) = Color.Extra.generateColor model.seed
       in
         ( { model | seed = seed
                   , colors = newColor :: model.colors
