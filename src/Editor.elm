@@ -4,8 +4,8 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Color exposing (Color)
-import String
 
+import Color.Extra exposing (toCss)
 import System exposing (..)
 
 addColor : Signal.Address Action -> Html
@@ -16,20 +16,9 @@ addColor address =
         ]
         []
 
-colorToCss : Color -> String
-colorToCss color =
-  let rgb = Color.toRgb color
-      rgbString = [ rgb.red |> toString
-                  , rgb.green |> toString
-                  , rgb.blue |> toString
-                  ]
-                  |> String.join ","
-  in
-    "rgb(" ++ rgbString ++ ")"
-
 colorBarItem : Color -> Html
 colorBarItem color =
-  li [ style [ ("backgroundColor", (colorToCss color)) ] ] []
+  li [ style [ ("backgroundColor", (toCss color)) ] ] []
 
 colorBar : List Color -> Html
 colorBar colors =

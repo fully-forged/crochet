@@ -34,6 +34,7 @@ server:
 
 watch:
 	watchman-make -p 'src/*.elm' -t build/main.js \
+								-p 'src/**/*.elm' -t build/main.js \
 								-p 'styles/*.scss' -t build/main.css \
 								-p 'index.html' -t build/index.html \
 								-p 'src/*.js' -t build/interop.js
