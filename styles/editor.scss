@@ -1,0 +1,33 @@
+.with-gutter {
+  margin-right: 1em;
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+}
+.colors {
+  li {
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+  }
+}
+
+.dimensions {
+  @include display(flex);
+
+  .control {
+    @extend .with-gutter;
+    @include flex-grow(1);
+  }
+}
+
+.actions {
+  @include display(flex);
+  @include justify-content(center);
+
+  input {
+    @extend .with-gutter;
+    width: 20em;
+  }
+}

@@ -35,7 +35,7 @@ server:
 watch:
 	watchman-make -p 'src/**/*.elm' -t build/main.js test \
 								-p 'test/*.elm' -t test \
-								-p 'styles/*.scss' -t build/main.css \
+								-p 'styles/**/*.scss' -t build/main.css \
 								-p 'index.html' -t build/index.html \
 								-p 'src/*.js' -t build/interop.js
 
@@ -70,8 +70,8 @@ bin/wellington:
 elm-package.json:
 	echo "$$elm_package_json" > $@
 
-build/main.css: styles/main.scss
-	bin/wt compile -b build/ $?
+build/main.css: styles/*.scss
+	bin/wt compile -b build/ styles/main.scss
 
 build/main.js: src/*.elm
 	elm make $(ELM_ENTRY) --warn --output $@

@@ -19,19 +19,33 @@ addColor address =
 
 widthControl : Signal.Address Action -> Model -> Html
 widthControl address model =
-  input [ type' "number"
-        , value (model.width |> toString)
-        , onChangeInt address ChangeWidth
-        ]
-        []
+  div
+    [ class "control" ]
+    [ label
+      [ for "width" ]
+      [ text "Width" ]
+    , input
+      [ type' "number"
+      , id "width"
+      , value (model.width |> toString)
+      , onChangeInt address ChangeWidth ]
+      []
+    ]
 
 heightControl : Signal.Address Action -> Model -> Html
 heightControl address model =
-  input [ type' "number"
-        , value (model.height |> toString)
-        , onChangeInt address ChangeHeight
-        ]
-        []
+  div
+    [ class "control" ]
+    [ label
+      [ for "height" ]
+      [ text "Height" ]
+    , input
+      [ type' "number"
+      , id "height"
+      , value (model.height |> toString)
+      , onChangeInt address ChangeHeight ]
+      []
+    ]
 
 generateLayout : Signal.Address Action -> Html
 generateLayout address =
@@ -43,11 +57,18 @@ generateLayout address =
 
 controls : Signal.Address Action -> Model -> Html
 controls address model =
-  nav []
-    [ addColor address
-    , generateLayout address
-    , widthControl address model
-    , heightControl address model
+  section
+    [ class "controls" ]
+    [ nav
+      [ class "dimensions" ]
+      [ widthControl address model
+      , heightControl address model
+      ]
+    , nav
+      [ class "actions" ]
+      [ addColor address
+      , generateLayout address
+      ]
     ]
 
 colorBarItem : Color -> Html

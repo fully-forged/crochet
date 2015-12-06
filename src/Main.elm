@@ -43,10 +43,15 @@ update action model =
       ( { model | height = h }
       , Effects.none )
 
+siteHeader : Html
+siteHeader =
+  header []
+    [ h1 [] [ text "Crochet!" ] ]
+
 view : Signal.Address Action -> Model -> Html
 view address model =
-  div []
-    [ h1 [] [ text "Crochet!" ]
+  Html.main' []
+    [ siteHeader
     , Editor.controls address model
     , Editor.colorBar model.colors
     , Editor.previewLayout model.layouts
