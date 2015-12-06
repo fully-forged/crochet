@@ -6,10 +6,12 @@ import Effects exposing (Effects, Never)
 import Signal
 import Task
 import Random
+import Debug
 
 import System exposing (..)
 import Editor
 import Square
+import Layout
 
 initialData : Model
 initialData =
@@ -27,12 +29,19 @@ update action model =
                   , colors = newColor :: model.colors
           }
         , Effects.none )
+    GenerateLayout ->
+      let
+        layout = (Layout.generate model)
+                 |> Debug.log "layout"
+      in
+        (model, Effects.none)
 
 view : Signal.Address Action -> Model -> Html
 view address model =
   div []
     [ h1 [] [ text "Crochet!" ]
     , Editor.addColor address
+    , Editor.generateLayout address
     , Editor.colorBar model.colors
     ]
 

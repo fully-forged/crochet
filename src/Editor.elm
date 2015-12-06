@@ -16,6 +16,14 @@ addColor address =
         ]
         []
 
+generateLayout : Signal.Address Action -> Html
+generateLayout address =
+  input [ type' "button"
+        , value "Generate Layout"
+        , onClick address GenerateLayout
+        ]
+        []
+
 colorBarItem : Color -> Html
 colorBarItem color =
   li [ style [ ("backgroundColor", (toCss color)) ] ] []

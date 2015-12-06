@@ -6,6 +6,7 @@ import Color exposing (Color)
 type Action =
   NoOp
   | GenerateColor
+  | GenerateLayout
 
 type alias Layout =
   { width : Int
