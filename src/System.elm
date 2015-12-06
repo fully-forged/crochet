@@ -7,6 +7,8 @@ type Action =
   NoOp
   | GenerateColor
   | GenerateLayout
+  | ChangeWidth Int
+  | ChangeHeight Int
 
 type alias Square =
   { colors: List Color

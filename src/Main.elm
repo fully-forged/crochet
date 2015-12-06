@@ -6,6 +6,7 @@ import Effects exposing (Effects, Never)
 import Signal
 import Task
 import Random
+-- import Debug
 
 import System exposing (..)
 import Editor
@@ -35,13 +36,18 @@ update action model =
         ( { model | seed = seed
                   , layouts = layout :: model.layouts }
         , Effects.none)
+    ChangeWidth w ->
+      ( { model | width = w }
+      , Effects.none )
+    ChangeHeight h ->
+      ( { model | height = h }
+      , Effects.none )
 
 view : Signal.Address Action -> Model -> Html
 view address model =
   div []
     [ h1 [] [ text "Crochet!" ]
-    , Editor.addColor address
-    , Editor.generateLayout address
+    , Editor.controls address model
     , Editor.colorBar model.colors
     , Editor.previewLayout model.layouts
     ]

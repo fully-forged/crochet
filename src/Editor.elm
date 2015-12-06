@@ -6,6 +6,7 @@ import Html.Events exposing (onClick)
 import Color exposing (Color)
 
 import Color.Extra exposing (toCss)
+import Events exposing (onChangeInt)
 import System exposing (..)
 
 addColor : Signal.Address Action -> Html
@@ -16,6 +17,22 @@ addColor address =
         ]
         []
 
+widthControl : Signal.Address Action -> Model -> Html
+widthControl address model =
+  input [ type' "number"
+        , value (model.width |> toString)
+        , onChangeInt address ChangeWidth
+        ]
+        []
+
+heightControl : Signal.Address Action -> Model -> Html
+heightControl address model =
+  input [ type' "number"
+        , value (model.height |> toString)
+        , onChangeInt address ChangeHeight
+        ]
+        []
+
 generateLayout : Signal.Address Action -> Html
 generateLayout address =
   input [ type' "button"
@@ -23,6 +40,15 @@ generateLayout address =
         , onClick address GenerateLayout
         ]
         []
+
+controls : Signal.Address Action -> Model -> Html
+controls address model =
+  nav []
+    [ addColor address
+    , generateLayout address
+    , widthControl address model
+    , heightControl address model
+    ]
 
 colorBarItem : Color -> Html
 colorBarItem color =

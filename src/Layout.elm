@@ -4,7 +4,6 @@ import Random
 import Random.Array exposing (shuffle)
 import Color exposing (Color)
 import Array
-import Debug
 
 import System exposing (..)
 
