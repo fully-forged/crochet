@@ -27,14 +27,16 @@ all: build/main.js build/main.css build/index.html build/interop.js
 install: src bin build \
 				 elm-package.json \
 				 src/Main.elm src/interop.js styles/main.scss index.html \
-				 bin/goat goat.json \
 				 bin/devd bin/wellington
 
 server:
 	bin/devd -w build -l build/
 
 watch:
-	bin/goat
+	watchman-make -p 'src/*.elm' -t build/main.js \
+								-p 'styles/*.scss' -t build/main.css \
+								-p 'index.html' -t build/index.html \
+								-p 'src/*.js' -t build/interop.js
 
 build bin src styles:
 	mkdir -p $@
@@ -61,13 +63,6 @@ bin/wellington:
 	tar -xzf $@.tgz -C bin/ --strip 1
 	rm $@.tgz
 
-bin/goat:
-	curl ${GOAT_URL} -L -o $@
-	chmod +x $@
-
-goat.json:
-	echo "$$goat_config" > $@
-
 elm-package.json:
 	echo "$$elm_package_json" > $@
 
@@ -82,38 +77,6 @@ build/interop.js: src/interop.js
 
 build/index.html: index.html
 	cp $? $@
-
-define goat_config
-{
-  "watchers": [
-    {
-      "extension": "elm",
-      "tasks": [
-        {
-          "command": "make build/main.js"
-        }
-      ]
-    },
-    {
-      "extension": "scss",
-      "tasks": [
-        {
-          "command": "make build/main.css"
-        }
-      ]
-    },
-    {
-      "extension": "html",
-      "tasks": [
-        {
-          "command": "make build/index.html"
-        }
-      ]
-    }
-  ]
-}
-endef
-export goat_config
 
 define main_elm
 module Main where
