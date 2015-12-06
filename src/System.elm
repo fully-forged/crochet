@@ -7,12 +7,10 @@ type Action =
   NoOp
   | GenerateColor
 
-type Square = List Color
-
 type alias Layout =
   { width : Int
   , height : Int
-  , squares : List Square
+  , squares : List (List Color)
   }
 
 type alias Model =

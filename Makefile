@@ -1,4 +1,4 @@
-.PHONY: install server watch
+.PHONY: install server watch test
 ELM_ENTRY = src/Main.elm
 DEVD_VERSION = 0.3
 WELLINGTON_VERSION = 1.0.2
@@ -33,11 +33,14 @@ server:
 	bin/devd -w build -l build/
 
 watch:
-	watchman-make -p 'src/*.elm' -t build/main.js \
-								-p 'src/**/*.elm' -t build/main.js \
+	watchman-make -p 'src/**/*.elm' -t build/main.js test \
+								-p 'test/*.elm' -t test \
 								-p 'styles/*.scss' -t build/main.css \
 								-p 'index.html' -t build/index.html \
 								-p 'src/*.js' -t build/interop.js
+
+test:
+	elm-test TestRunner.elm
 
 build bin src styles:
 	mkdir -p $@
