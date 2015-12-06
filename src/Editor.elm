@@ -32,3 +32,11 @@ colorBar : List Color -> Html
 colorBar colors =
   ul [ class "colors" ]
     (List.map colorBarItem colors)
+
+previewLayout : List Layout -> Html
+previewLayout layouts =
+  case List.head layouts of
+    Just layout ->
+      div []
+        (List.map (\s -> colorBar s.colors) layout.squares)
+    Nothing -> h2 [] [ text "No layouts available" ]

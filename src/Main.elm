@@ -6,7 +6,6 @@ import Effects exposing (Effects, Never)
 import Signal
 import Task
 import Random
-import Debug
 
 import System exposing (..)
 import Editor
@@ -32,9 +31,9 @@ update action model =
     GenerateLayout ->
       let
         (layout, seed) = Layout.generate model
-        dbg = Debug.log "new_layout" layout
       in
-        ( { model | seed = seed }
+        ( { model | seed = seed
+                  , layouts = layout :: model.layouts }
         , Effects.none)
 
 view : Signal.Address Action -> Model -> Html
@@ -44,6 +43,7 @@ view address model =
     , Editor.addColor address
     , Editor.generateLayout address
     , Editor.colorBar model.colors
+    , Editor.previewLayout model.layouts
     ]
 
 app : StartApp.App Model
