@@ -15,7 +15,7 @@ import Layout
 
 initialData : Model
 initialData =
-  Model 2 2 [] (Random.initialSeed 23123)
+  Model 2 2 [] (Random.initialSeed 23123) []
 
 update : Action -> Model -> (Model, Effects Action)
 update action model =
@@ -31,10 +31,11 @@ update action model =
         , Effects.none )
     GenerateLayout ->
       let
-        layout = (Layout.generate model)
-                 |> Debug.log "layout"
+        (layout, seed) = Layout.generate model
+        dbg = Debug.log "new_layout" layout
       in
-        (model, Effects.none)
+        ( { model | seed = seed }
+        , Effects.none)
 
 view : Signal.Address Action -> Model -> Html
 view address model =

@@ -8,10 +8,14 @@ type Action =
   | GenerateColor
   | GenerateLayout
 
+type alias Square =
+  { colors: List Color
+  }
+
 type alias Layout =
   { width : Int
   , height : Int
-  , squares : List (List Color)
+  , squares : List Square
   }
 
 type alias Model =
@@ -19,4 +23,5 @@ type alias Model =
   , height : Int
   , colors : List Color
   , seed : Seed
+  , layouts : List Layout
   }

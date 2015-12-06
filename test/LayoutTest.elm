@@ -11,38 +11,38 @@ import System exposing (..)
 all : Test
 all =
   suite "Layout Suite"
-    [ heightTest
-    , widthTest
-    , numberOfSquaresTest
-    ]
+    (layoutPropertiesTests ++ [randomizesColorsTest])
 
 model =
   let
     colors = [ Color.rgb 1 1 1
              , Color.rgb 255 255 255
+             , Color.rgb 6 6 6
              ]
     seed = Random.initialSeed 1
   in
-    Model 3 3 colors seed
+    Model 3 3 colors seed []
 
-widthTest =
+layoutPropertiesTests =
   let
-    layout = (Layout.generate model)
+    (layout, seed) = (Layout.generate model)
+    assertions = (assertionList [ 3, 3, 9]
+                                [ layout.height
+                                , layout.width
+                                , (layout.squares |> List.length)
+                                ])
+    props = ["height", "width", "squares"]
+    testFn a p = test p a
   in
-    test "It has correct width and height"
-      (assertEqual 3 (layout.width))
+    List.map2 testFn assertions props
 
-heightTest =
+randomizesColorsTest =
   let
-    layout = (Layout.generate model)
+    firstSquare = Square [ Color.rgb 6 6 6
+                         , Color.rgb 255 255 255
+                         , Color.rgb 1 1 1
+                         ]
+    (layout, seed) = (Layout.generate model)
   in
-    test "It has correct height and height"
-      (assertEqual 3 (layout.height))
-
-numberOfSquaresTest =
-  let
-    layout = (Layout.generate model)
-    numberOfSquares = layout.squares |> List.length
-  in
-    test "It has correct number of squares"
-      (assertEqual 9 numberOfSquares)
+    test "it randomizes colors"
+      (assertEqual (Just firstSquare) (List.head layout.squares))
