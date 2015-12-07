@@ -100,6 +100,8 @@ previewLayout : List Layout -> Html
 previewLayout layouts =
   case List.head layouts of
     Just layout ->
-      div []
+      div [ class "preview" ]
         (List.map (\s -> colorBar s.colors) layout.squares)
-    Nothing -> h2 [] [ text "No layouts available" ]
+    Nothing -> 
+      div [ class "preview" ]
+        [ h2 [] [ text "No layouts available" ] ]
