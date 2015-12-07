@@ -11,7 +11,9 @@ import System exposing (..)
 all : Test
 all =
   suite "Layout Suite"
-    (layoutPropertiesTests ++ [randomizesColorsTest])
+    (layoutPropertiesTests ++
+     validatesModelTest ++
+     [randomizesColorsTest])
 
 model =
   let
@@ -45,3 +47,22 @@ randomizesColorsTest =
   in
     test "it randomizes colors"
       (assertEqual (Just firstSquare) (List.head layout.squares))
+
+validatesModelTest =
+  let
+    assertions = (assertionList [ True, False, False, False, False ]
+                                [ model |> Layout.valid
+                                , { model | width = 0 } |> Layout.valid
+                                , { model | height = 0 } |> Layout.valid
+                                , { model | colors = [] } |> Layout.valid
+                                , { model | count = 4 } |> Layout.valid
+                                ])
+    props = [ "valid data"
+            , "invalid width"
+            , "invalid height"
+            , "empty colors"
+            , "less colours than needed"
+            ]
+    testFn a p = test p a
+  in
+    List.map2 testFn assertions props

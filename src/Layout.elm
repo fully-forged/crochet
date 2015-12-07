@@ -30,3 +30,12 @@ generate model =
   in
     (Layout model.width model.height squares, seed)
 
+valid : Model -> Bool
+valid m =
+  let
+    colorsCount = List.length m.colors
+  in
+    m.width > 0 &&
+    m.height > 0 &&
+    colorsCount > 0 &&
+    colorsCount >= m.count
