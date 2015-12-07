@@ -7,22 +7,25 @@ import Array
 
 import System exposing (..)
 
-generateCombinations : List Color -> Random.Seed -> List (List Color) -> Int -> (List (List Color), Random.Seed)
-generateCombinations colors seed acc amount =
+generateCombinations : List Color -> Random.Seed -> List (List Color) -> Int -> Int -> (List (List Color), Random.Seed)
+generateCombinations colors seed acc amount countPerSquare =
   case amount of
     0 -> (acc, seed)
     otherwise ->
       let
         (combination, seed') = colors |> Array.fromList |> (shuffle seed)
-        newAcc = (Array.toList combination) :: acc
+        combination' = combination
+                       |> Array.toList
+                       |> (List.take countPerSquare)
+        newAcc = combination' :: acc
       in
-        generateCombinations colors seed' newAcc (amount - 1)
+        generateCombinations colors seed' newAcc (amount - 1) countPerSquare
 
 generate : Model -> (Layout, Random.Seed)
 generate model =
   let
     numberOfSquares = model.width * model.height
-    (combinations, seed) = generateCombinations model.colors model.seed [] numberOfSquares
+    (combinations, seed) = generateCombinations model.colors model.seed [] numberOfSquares model.count
     squares = List.map Square combinations
   in
     (Layout model.width model.height squares, seed)

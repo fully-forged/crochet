@@ -47,6 +47,21 @@ heightControl address model =
       []
     ]
 
+countControl : Signal.Address Action -> Model -> Html
+countControl address model =
+  div
+    [ class "control" ]
+    [ label
+      [ for "count" ]
+      [ text "Colors per square" ]
+    , input
+      [ type' "number"
+      , id "count"
+      , value (model.count |> toString)
+      , onChangeInt address ChangeCount ]
+      []
+    ]
+
 generateLayout : Signal.Address Action -> Html
 generateLayout address =
   input [ type' "button"
@@ -63,6 +78,7 @@ controls address model =
       [ class "dimensions" ]
       [ widthControl address model
       , heightControl address model
+      , countControl address model
       ]
     , nav
       [ class "actions" ]

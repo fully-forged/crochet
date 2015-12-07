@@ -9,6 +9,7 @@ type Action =
   | GenerateLayout
   | ChangeWidth Int
   | ChangeHeight Int
+  | ChangeCount Int
 
 type alias Square =
   { colors: List Color
@@ -26,4 +27,5 @@ type alias Model =
   , colors : List Color
   , seed : Seed
   , layouts : List Layout
+  , count : Int
   }

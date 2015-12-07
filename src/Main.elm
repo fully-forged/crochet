@@ -15,7 +15,7 @@ import Layout
 
 initialData : Model
 initialData =
-  Model 2 2 [] (Random.initialSeed 23123) []
+  Model 2 2 [] (Random.initialSeed 23123) [] 2
 
 update : Action -> Model -> (Model, Effects Action)
 update action model =
@@ -41,6 +41,9 @@ update action model =
       , Effects.none )
     ChangeHeight h ->
       ( { model | height = h }
+      , Effects.none )
+    ChangeCount c ->
+      ( { model | count = c }
       , Effects.none )
 
 siteHeader : Html

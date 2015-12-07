@@ -21,7 +21,7 @@ model =
              ]
     seed = Random.initialSeed 1
   in
-    Model 3 3 colors seed []
+    Model 3 3 colors seed [] 2
 
 layoutPropertiesTests =
   let
@@ -40,7 +40,6 @@ randomizesColorsTest =
   let
     firstSquare = Square [ Color.rgb 6 6 6
                          , Color.rgb 255 255 255
-                         , Color.rgb 1 1 1
                          ]
     (layout, seed) = (Layout.generate model)
   in
