@@ -8,6 +8,7 @@ import Color exposing (Color)
 import Color.Extra exposing (toCss)
 import Events exposing (onChangeInt)
 import System exposing (..)
+import Layout
 
 addColor : Signal.Address Action -> Html
 addColor address =
@@ -27,6 +28,7 @@ widthControl address model =
     , input
       [ type' "number"
       , id "width"
+      , Html.Attributes.min "0"
       , value (model.width |> toString)
       , onChangeInt address ChangeWidth ]
       []
@@ -42,6 +44,7 @@ heightControl address model =
     , input
       [ type' "number"
       , id "height"
+      , Html.Attributes.min "0"
       , value (model.height |> toString)
       , onChangeInt address ChangeHeight ]
       []
@@ -57,15 +60,17 @@ countControl address model =
     , input
       [ type' "number"
       , id "count"
+      , Html.Attributes.min "0"
       , value (model.count |> toString)
       , onChangeInt address ChangeCount ]
       []
     ]
 
-generateLayout : Signal.Address Action -> Html
-generateLayout address =
+generateLayout : Signal.Address Action -> Model -> Html
+generateLayout address model =
   input [ type' "button"
         , value "Generate Layout"
+        , disabled (not (Layout.valid model))
         , onClick address GenerateLayout
         ]
         []
@@ -83,7 +88,7 @@ controls address model =
     , nav
       [ class "actions" ]
       [ addColor address
-      , generateLayout address
+      , generateLayout address model
       ]
     ]
 
