@@ -6,7 +6,6 @@ import Effects exposing (Effects, Never)
 import Signal
 import Task
 import Random
--- import Debug
 
 import System exposing (..)
 import Editor
