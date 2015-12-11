@@ -24,10 +24,13 @@ update action model =
     GenerateColor ->
       let
         (newColor, seed) = Color.Extra.generateColor model.seed
+        model' = { model | seed = seed
+                 , colors = newColor :: model.colors
+                 }
+        (layout, seed') = Layout.generate model'
       in
-        ( { model | seed = seed
-                  , colors = newColor :: model.colors
-          }
+        ( { model' | seed = seed'
+                   , layouts = layout :: model.layouts }
         , Effects.none )
     GenerateLayout ->
       let
@@ -37,14 +40,26 @@ update action model =
                   , layouts = layout :: model.layouts }
         , Effects.none)
     ChangeWidth w ->
-      ( { model | width = w }
-      , Effects.none )
+      let
+        model' = { model | width = w }
+        (layout, seed) = Layout.generate model'
+      in
+        ( { model' | layouts = layout :: model.layouts }
+        , Effects.none )
     ChangeHeight h ->
-      ( { model | height = h }
-      , Effects.none )
+      let
+        model' = { model | height = h }
+        (layout, seed) = Layout.generate model'
+      in
+        ( { model' | layouts = layout :: model.layouts }
+        , Effects.none )
     ChangeCount c ->
-      ( { model | count = c }
-      , Effects.none )
+      let
+        model' = { model | count = c }
+        (layout, seed) = Layout.generate model'
+      in
+        ( { model' | layouts = layout :: model.layouts }
+        , Effects.none )
 
 siteHeader : Html
 siteHeader =
