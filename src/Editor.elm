@@ -9,6 +9,7 @@ import Color.Extra exposing (toCss)
 import Events exposing (onChangeInt)
 import System exposing (..)
 import Layout
+import Debug
 
 addColor : Signal.Address Action -> Html
 addColor address =
@@ -101,12 +102,46 @@ colorBar colors =
   ul [ class "colors" ]
     (List.map colorBarItem colors)
 
+layer : Layer -> Html
+layer l =
+  let
+    index' = l.index + 1
+    dbg = Debug.log "layer" l
+  in
+    div [ class "layer"
+        , style [ ("backgroundColor", (toCss l.color))
+                , ("width", (index' |> toString) ++ "em")
+                , ("height", (index' |> toString) ++ "em")
+                , ("left", (l.offset |> toString) ++ "em")
+                , ("top", (l.offset |> toString) ++ "em")
+                , ("z-index", l.zIndex |> toString)
+                ]
+        ]
+        []
+
+square : List Color -> Html
+square colors =
+  let
+    size = colors |> List.length
+    dimensions = [ ("height", (size |> toString) ++ "em")
+                 , ("width", (size |> toString) ++ "em")
+                 ]
+    offset i = toFloat(size - i - 1) / 2
+    indexedColors = colors
+                    |> List.indexedMap (,)
+                    |> List.map (\(i, c) -> Layer c i (offset i) (size - i))
+  in
+    div [ class "square"
+        , style dimensions
+        ]
+        (List.map layer indexedColors)
+
 previewLayout : List Layout -> Html
 previewLayout layouts =
   case List.head layouts of
     Just layout ->
       div [ class "preview" ]
-        (List.map (\s -> colorBar s.colors) layout.squares)
-    Nothing -> 
+        (List.map (\s -> square s.colors) layout.squares)
+    Nothing ->
       div [ class "preview" ]
         [ h2 [] [ text "No layouts available" ] ]

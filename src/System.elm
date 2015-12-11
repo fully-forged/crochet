@@ -11,6 +11,13 @@ type Action =
   | ChangeHeight Int
   | ChangeCount Int
 
+type alias Layer =
+  { color: Color
+  , index: Int
+  , offset: Float
+  , zIndex: Int
+  }
+
 type alias Square =
   { colors: List Color
   }

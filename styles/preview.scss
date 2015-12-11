@@ -4,3 +4,13 @@
   @include align-items(center);
   height: 100%;
 }
+
+.square {
+  display: block;
+  position: relative;
+  border: 1px solid black;
+
+  .layer {
+    position: absolute;
+  }
+}
