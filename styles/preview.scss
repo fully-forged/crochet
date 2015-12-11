@@ -5,10 +5,15 @@
   height: 100%;
 }
 
+.layout {
+  @include display(flex);
+  @include flex-wrap(wrap);
+}
+
 .square {
   display: block;
   position: relative;
-  border: 1px solid black;
+  outline: 1px solid black;
 
   .layer {
     position: absolute;

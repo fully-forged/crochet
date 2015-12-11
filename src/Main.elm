@@ -57,7 +57,7 @@ view address model =
     [ siteHeader
     , Editor.controls address model
     , Editor.colorBar model.colors
-    , Editor.previewLayout model.layouts
+    , Editor.previewLayout model
     ]
 
 app : StartApp.App Model

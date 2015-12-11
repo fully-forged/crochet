@@ -136,12 +136,20 @@ square colors =
         ]
         (List.map layer indexedColors)
 
-previewLayout : List Layout -> Html
-previewLayout layouts =
-  case List.head layouts of
+previewWidth : Model -> Int
+previewWidth model =
+  model.width * model.count
+
+previewLayout : Model -> Html
+previewLayout model =
+  case List.head model.layouts of
     Just layout ->
       div [ class "preview" ]
-        (List.map (\s -> square s.colors) layout.squares)
+          [ div [ class "layout"
+                , style [ ("width", (model |> previewWidth |> toString) ++ "em") ]
+                ]
+            (List.map (\s -> square s.colors) layout.squares)
+          ]
     Nothing ->
       div [ class "preview" ]
         [ h2 [] [ text "No layouts available" ] ]
