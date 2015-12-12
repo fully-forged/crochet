@@ -67,7 +67,7 @@ invalidNotice =
 
 previewOrNotice : Model -> Html
 previewOrNotice model =
-  if (Layout.valid model) then
+  if (Layout.isValidCombination model) then
     previewLayout model
   else
     invalidNotice

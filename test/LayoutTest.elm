@@ -51,11 +51,11 @@ randomizesColorsTest =
 validatesModelTest =
   let
     assertions = (assertionList [ True, False, False, False, False ]
-                                [ model |> Layout.valid
-                                , { model | width = 0 } |> Layout.valid
-                                , { model | height = 0 } |> Layout.valid
-                                , { model | colors = [] } |> Layout.valid
-                                , { model | count = 4 } |> Layout.valid
+                                [ model |> Layout.isValidCombination
+                                , { model | width = 0 } |> Layout.isValidCombination
+                                , { model | height = 0 } |> Layout.isValidCombination
+                                , { model | colors = [] } |> Layout.isValidCombination
+                                , { model | count = 4 } |> Layout.isValidCombination
                                 ])
     props = [ "valid data"
             , "invalid width"

@@ -30,8 +30,8 @@ generate model =
   in
     (Layout model.width model.height squares, seed)
 
-valid : Model -> Bool
-valid m =
+isValidCombination : Model -> Bool
+isValidCombination m =
   let
     colorsCount = List.length m.colors
   in

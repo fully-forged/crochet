@@ -70,7 +70,7 @@ generateLayout : Signal.Address Action -> Model -> Html
 generateLayout address model =
   input [ type' "button"
         , value "Generate Layout"
-        , disabled (not (Layout.valid model))
+        , disabled (not (Layout.isValidCombination model))
         , onClick address GenerateLayout
         ]
         []
