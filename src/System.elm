@@ -5,6 +5,7 @@ import Color exposing (Color)
 
 type Action =
   NoOp
+  | NewSeed Int
   | GenerateColor
   | GenerateLayout
   | ChangeWidth Int

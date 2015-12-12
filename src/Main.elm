@@ -4,7 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import StartApp
 import Effects exposing (Effects, Never)
-import Signal
+import Signal exposing (Signal, Address, map)
 import Task
 import Random
 
@@ -13,6 +13,8 @@ import Editor
 import Color.Extra
 import Layout
 import Preview
+
+port seedSignal : Signal Int
 
 initialData : Model
 initialData =
@@ -33,7 +35,8 @@ addRandomLayout model =
 update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
-    NoOp -> (model, Effects.none)
+    NoOp -> noFx model
+    NewSeed s -> noFx { model | seed = (Random.initialSeed s) }
     GenerateColor ->
       let
         (newColor, seed) = Color.Extra.generateColor model.seed
@@ -66,7 +69,7 @@ siteHeader =
   header []
     [ h1 [] [ text "Crochet!" ] ]
 
-view : Signal.Address Action -> Model -> Html
+view : Address Action -> Model -> Html
 view address model =
   Html.main' []
     [ siteHeader
@@ -83,7 +86,7 @@ app =
     { init = (initialData, Effects.none)
     , update = update
     , view = view
-    , inputs = []
+    , inputs = [ NewSeed `map` seedSignal ]
     }
 
 main : Signal.Signal Html
