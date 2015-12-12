@@ -9,7 +9,6 @@ import Color.Extra exposing (toCss)
 import Events exposing (onChangeInt)
 import System exposing (..)
 import Layout
-import Debug
 
 addColor : Signal.Address Action -> Html
 addColor address =
@@ -106,7 +105,6 @@ layer : Layer -> Html
 layer l =
   let
     index' = l.index + 1
-    dbg = Debug.log "layer" l
   in
     div [ class "layer"
         , style [ ("backgroundColor", (toCss l.color))
@@ -139,6 +137,11 @@ square colors =
 previewWidth : Model -> Int
 previewWidth model =
   model.width * model.count
+
+invalidNotice : Html
+invalidNotice =
+  div [ class "preview" ]
+    [ h2 [] [ text "The current combination cannot generate a layout" ] ]
 
 previewLayout : Model -> Html
 previewLayout model =

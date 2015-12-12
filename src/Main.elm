@@ -16,6 +16,18 @@ initialData : Model
 initialData =
   Model 2 2 [] (Random.initialSeed 23123) [] 2
 
+noFx : a -> ( a, Effects b )
+noFx model =
+  (model, Effects.none)
+
+addRandomLayout : Model -> Model
+addRandomLayout model =
+  let
+    (layout, seed) = Layout.generate model
+  in
+    { model | seed = seed
+            , layouts = layout :: model.layouts }
+
 update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
@@ -26,44 +38,38 @@ update action model =
         model' = { model | seed = seed
                  , colors = newColor :: model.colors
                  }
-        (layout, seed') = Layout.generate model'
       in
-        ( { model' | seed = seed'
-                   , layouts = layout :: model.layouts }
-        , Effects.none )
+        model'
+          |> addRandomLayout
+          |> noFx
     GenerateLayout ->
-      let
-        (layout, seed) = Layout.generate model
-      in
-        ( { model | seed = seed
-                  , layouts = layout :: model.layouts }
-        , Effects.none)
+      model
+        |> addRandomLayout
+        |> noFx
     ChangeWidth w ->
-      let
-        model' = { model | width = w }
-        (layout, seed) = Layout.generate model'
-      in
-        ( { model' | layouts = layout :: model.layouts }
-        , Effects.none )
+      { model | width = w }
+        |> addRandomLayout
+        |> noFx
     ChangeHeight h ->
-      let
-        model' = { model | height = h }
-        (layout, seed) = Layout.generate model'
-      in
-        ( { model' | layouts = layout :: model.layouts }
-        , Effects.none )
+      { model | height = h }
+        |> addRandomLayout
+        |> noFx
     ChangeCount c ->
-      let
-        model' = { model | count = c }
-        (layout, seed) = Layout.generate model'
-      in
-        ( { model' | layouts = layout :: model.layouts }
-        , Effects.none )
+      { model | count = c }
+        |> addRandomLayout
+        |> noFx
 
 siteHeader : Html
 siteHeader =
   header []
     [ h1 [] [ text "Crochet!" ] ]
+
+previewOrNotice : Model -> Html
+previewOrNotice model =
+  if (Layout.valid model) then
+    Editor.previewLayout model
+  else
+    Editor.invalidNotice
 
 view : Signal.Address Action -> Model -> Html
 view address model =
@@ -71,7 +77,7 @@ view address model =
     [ siteHeader
     , Editor.controls address model
     , Editor.colorBar model.colors
-    , Editor.previewLayout model
+    , (previewOrNotice model)
     ]
 
 app : StartApp.App Model
