@@ -18,7 +18,7 @@ port seedSignal : Signal Int
 
 initialData : Model
 initialData =
-  Model 2 2 [] (Random.initialSeed 23123) [] 2
+  Model 10 10 [] (Random.initialSeed 23123) [] 4
 
 noFx : a -> ( a, Effects b )
 noFx model =
