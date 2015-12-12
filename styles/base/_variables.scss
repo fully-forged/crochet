@@ -20,17 +20,18 @@ $blue: #477dca;
 $dark-gray: #333;
 $medium-gray: #999;
 $light-gray: #ddd;
+$dark-salmon: #DF5E67;
 
 // Font Colors
 $base-font-color: $dark-gray;
-$action-color: $blue;
+$action-color: $dark-salmon;
 
 // Border
 $base-border-color: $light-gray;
 $base-border: 1px solid $base-border-color;
 
 // Background Colors
-$base-background-color: #fff;
+$base-background-color: #FFFABE;
 $secondary-background-color: tint($base-border-color, 75%);
 
 // Forms
