@@ -12,11 +12,15 @@ import Layout
 
 addColor : Signal.Address Action -> Html
 addColor address =
-  input [ type' "button"
-        , value "Add new color"
-        , onClick address GenerateColor
-        ]
-        []
+  li [ class "add-color" ]
+     [ input
+       [ type' "button"
+       , onClick address GenerateColor
+       , value "+"
+       ]
+       []
+     ]
+     -- [ text "+" ]
 
 widthControl : Signal.Address Action -> Model -> Html
 widthControl address model =
@@ -56,7 +60,7 @@ countControl address model =
     [ class "control" ]
     [ label
       [ for "count" ]
-      [ text "Colors per square" ]
+      [ text "Colors" ]
     , input
       [ type' "number"
       , id "count"
@@ -87,24 +91,29 @@ controls address model =
       ]
     , nav
       [ class "actions" ]
-      [ addColor address
-      , generateLayout address model
-      ]
+      [ generateLayout address model ]
     ]
 
 colorBarItem : Color -> Html
 colorBarItem color =
   li [ style [ ("backgroundColor", (toCss color)) ] ] []
 
-colorBar : List Color -> Html
-colorBar colors =
-  ul [ class "colors" ]
-    (List.map colorBarItem colors)
+colorBar : Signal.Address Action -> List Color -> Html
+colorBar address colors =
+  let
+    colorBarItems = List.map colorBarItem colors
+    addColorItem = [ addColor address ]
+  in
+    ul [ class "colors" ]
+      (List.append addColorItem colorBarItems)
 
 editor : Signal.Address Action -> Model -> Html
 editor address model =
   section
     [ class "editor" ]
     [ controls address model
-    , colorBar model.colors
+    , section
+      [ class "palette" ]
+      [ h2 [] [ text "Your palette" ]
+      , colorBar address model.colors ]
     ]

@@ -9,3 +9,16 @@ main {
   @include flex-direction(column);
   height: 97vh;
 }
+
+.workspace {
+  @include display(flex);
+
+  .editor {
+    @include flex-grow(1);
+    max-width: 20em;
+  }
+
+  .preview {
+    @include flex-grow(3);
+  }
+}

@@ -1,6 +1,7 @@
 module Main where
 
 import Html exposing (..)
+import Html.Attributes exposing (..)
 import StartApp
 import Effects exposing (Effects, Never)
 import Signal
@@ -69,8 +70,11 @@ view : Signal.Address Action -> Model -> Html
 view address model =
   Html.main' []
     [ siteHeader
-    , (Editor.editor address model)
-    , (Preview.previewOrNotice model)
+    , section
+      [ class "workspace" ]
+      [ (Editor.editor address model)
+      , (Preview.previewOrNotice model)
+      ]
     ]
 
 app : StartApp.App Model

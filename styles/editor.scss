@@ -5,11 +5,28 @@
     margin-right: 0;
   }
 }
+
+.palette {
+  margin-top: 1em;
+}
+
 .colors {
+  @include display(flex);
+
   li {
-    height: 1em;
-    width: 1em;
-    display: inline-block;
+    $size: 2em;
+    height: $size;
+    width: $size;
+    line-height: $size;
+
+    &.add-color {
+      margin-right: ($size / 4);
+
+      input {
+        padding: ($size / 4) ($size / 8 * 3);
+        vertical-align: baseline;
+      }
+    }
   }
 }
 
@@ -18,16 +35,5 @@
 
   .control {
     @extend .with-gutter;
-    @include flex-grow(1);
-  }
-}
-
-.actions {
-  @include display(flex);
-  @include justify-content(center);
-
-  input {
-    @extend .with-gutter;
-    width: 20em;
   }
 }
