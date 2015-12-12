@@ -11,6 +11,7 @@ import System exposing (..)
 import Editor
 import Color.Extra
 import Layout
+import Preview
 
 initialData : Model
 initialData =
@@ -64,20 +65,12 @@ siteHeader =
   header []
     [ h1 [] [ text "Crochet!" ] ]
 
-previewOrNotice : Model -> Html
-previewOrNotice model =
-  if (Layout.valid model) then
-    Editor.previewLayout model
-  else
-    Editor.invalidNotice
-
 view : Signal.Address Action -> Model -> Html
 view address model =
   Html.main' []
     [ siteHeader
-    , Editor.controls address model
-    , Editor.colorBar model.colors
-    , (previewOrNotice model)
+    , (Editor.editor address model)
+    , (Preview.previewOrNotice model)
     ]
 
 app : StartApp.App Model
