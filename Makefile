@@ -64,7 +64,7 @@ bin/devd:
 
 bin/wellington:
 	curl ${WELLINGTON_URL} -L -o $@.tgz
-	tar -xzf $@.tgz -C bin/ --strip 1
+	tar -xzf $@.tgz -C bin/
 	rm $@.tgz
 
 elm-package.json:
